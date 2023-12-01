@@ -23,10 +23,10 @@ int main() {
 		exit(1);
 	}
 
-    while ((c = getc(file)) != EOF) {
+	while ((c = getc(file)) != EOF) {
 		// Digit character
 		if (isdigit(c)) {
-        	if (first == '\0')
+			if (first == '\0')
 				first = c;
 			else
 				second = c;
@@ -46,7 +46,7 @@ int main() {
 			printf("Running total: %d\n\n", sum);
 			first = second = '\0';
 		}
-    }
+	}
 	
 	fclose(file);
 	printf("Sum of calibration values: %d\n", sum);	
