@@ -17,7 +17,7 @@ int main() {
 	int sum = 0;
 
 	FILE *file;
-	file = fopen("input-example.txt", "r");
+	file = fopen("input-example-part-1.txt", "r");
 	if (file == NULL) {
 		printf("Could not open file.");
 		exit(1);
@@ -33,7 +33,7 @@ int main() {
 		}
 		
 		// End of line
-		if (c == '\n') {
+		else if (c == '\n') {
 			firstDigit = charToInt(first);
 			secondDigit = (second != '\0')
 				? charToInt(second)
@@ -54,7 +54,6 @@ int main() {
 }
 
 int charToInt(char c) {
-	// if (!isdigit(c))
 	// Each digit in the range '0'..'9' is guaranteed to be one
 	// greater than its previous digit.
 	int value = c - '0';
