@@ -8,7 +8,7 @@
 // digit and the last digit (in that order) to form a single two-digit number.
 // What is the sum of all of the calibration values?
 
-int charToInt(char c);
+int char_to_int(char c);
 
 int main() {
 	char c;
@@ -34,9 +34,9 @@ int main() {
 		
 		// End of line
 		else if (c == '\n') {
-			firstDigit = charToInt(first);
+			firstDigit = char_to_int(first);
 			secondDigit = (second != '\0')
-				? charToInt(second)
+				? char_to_int(second)
 				: firstDigit;
 			
 			int calibrationValue = (firstDigit * 10) + secondDigit;
@@ -53,7 +53,7 @@ int main() {
 	return 0;
 }
 
-int charToInt(char c) {
+int char_to_int(char c) {
 	// Each digit in the range '0'..'9' is guaranteed to be one
 	// greater than its previous digit.
 	int value = c - '0';
