@@ -16,16 +16,16 @@ char* strsep(char **stringp, const char *delim);
 void print_string_array(char** str_arr, int length);
 
 int main() {
-    int line_number = 1;
+    int game_id = 1;
+    int game_id_sum = 0;
     int token_count;
     char* found;
-
     char line[MAX_LINE_SIZE];
     char* split_string[100];
 
     FILE* file = open_input_file(INPUT_FILE);
     while (fgets(line, sizeof(line), file) != NULL) {
-        printf("Reading line %d...\n", line_number++);
+        printf("Reading line %d...\n", game_id);
 
         line[strcspn(line, "\n")] = '\0'; // Strip off newline
         printf("\t\"%s\"\n", line);
@@ -45,6 +45,8 @@ int main() {
         print_string_array(split_string_sub, token_count_sub);
 
         putchar('\n');
+
+        game_id++;
     }
 
     return 0;
@@ -64,18 +66,33 @@ FILE* open_input_file(const char* filename) {
 }
 
 /**
- * Splits a given string, `string`, by a given delimiter, `delim`, and outputs the result to `split_string`.
- * Returns the number of split elements.
+ * @ Splits a given string, `string`, by a given delimiter, `delim`, and outputs the result to `split_string`.
+ * @returns the number of split elements.
  */
 int strsplit(char* string, const char* delim, char** split_string) {
     printf("Splitting \"%s\" by '%s'...\n", string, delim);
 
     int count = 0;
-    char* token;
+    char *token, *result;
     
     while (token = strsep(&string, delim)) {
         printf("\tToken: \"%s\"\n", token);
-        split_string[count++] = token;
+
+        // Shift pointer from 0th character to 1st character; effectively removing the first character from the string.
+        if (token[0] == ' ') {
+            // printf("Space! %c %c\n", token[0], token[1]);
+            // token = token + 1;
+            if (strlen(token) > 1) {
+                printf("A ");
+                result = &token[1];
+            }
+            else {
+                printf("B ");
+                result = token;
+            }
+        }
+
+        split_string[count++] = result;
     }
 
     return count;
