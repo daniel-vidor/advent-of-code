@@ -35,14 +35,14 @@ func main() {
 		for i := 0; i < len(runeLine); i++ {
 			if unicode.IsDigit(runeLine[i]) {
 				firstDigit = string(runeLine[i])
-				break;
+				break
 			}
 		}
 
 		for i := len(runeLine) - 1; i >= 0; i-- {
 			if unicode.IsDigit(runeLine[i]) {
 				secondDigit = string(runeLine[i])
-				break;
+				break
 			}
 		}
 

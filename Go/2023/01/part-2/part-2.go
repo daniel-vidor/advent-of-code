@@ -9,7 +9,7 @@ import (
 	"unicode"
 )
 
-var digitWords = []string{ "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }
+var digitWords = []string{"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
 
 // Day 1: Trebuchet?!
 
@@ -34,7 +34,7 @@ func main() {
 		runeLine := []rune(line)
 
 		// Parse from left-to-right until we match something
-		forwards:
+	forwards:
 		for i := 0; i < len(runeLine); i++ {
 			r := runeLine[i]
 
@@ -56,7 +56,7 @@ func main() {
 		buffer = ""
 
 		// Parse from right-to-left until we match something
-		backwards:
+	backwards:
 		for i := len(runeLine) - 1; i >= 0; i-- {
 			r := runeLine[i]
 
@@ -66,7 +66,7 @@ func main() {
 			} else {
 				buffer = string(r) + buffer // prepend to buffer
 				for i := 0; i < len(buffer); i++ {
-					s := buffer[:len(buffer) - i]
+					s := buffer[:len(buffer)-i]
 					if slices.Contains(digitWords, s) {
 						secondDigit = DigitWordToInt(s)
 						break backwards
@@ -75,9 +75,9 @@ func main() {
 			}
 		}
 
-		value := firstDigit * 10 + secondDigit
+		value := firstDigit*10 + secondDigit
 		fmt.Println(fmt.Sprint(value) + " <- " + line)
-		
+
 		sum += value
 	}
 
@@ -86,9 +86,9 @@ func main() {
 
 func DigitWordToInt(s string) int {
 	for index, word := range digitWords {
-        if word == s {
-            return index
-        }
-    }
+		if word == s {
+			return index
+		}
+	}
 	return -1
 }
