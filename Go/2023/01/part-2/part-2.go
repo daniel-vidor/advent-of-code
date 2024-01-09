@@ -24,96 +24,65 @@ func main() {
 	defer file.Close()
 
 	sum := 0
-
 	scanner := bufio.NewScanner(file)
+
 	for scanner.Scan() {
-		line := scanner.Text()
-		// fmt.Println(line)
-
-		buffer := ""
-
 		var firstDigit int
 		var secondDigit int
-
+		buffer := ""
+		line := scanner.Text()
 		runeLine := []rune(line)
 
-		// fmt.Println("Forwards!")
-
-		outForwards:
+		// Parse from left-to-right until we match something
+		forwards:
 		for i := 0; i < len(runeLine); i++ {
 			r := runeLine[i]
 
 			if unicode.IsDigit(r) {
 				firstDigit, _ = strconv.Atoi(string(r))
-				// fmt.Println(fmt.Sprint(firstDigit))
 				break
 			} else {
-				buffer += string(r)
-				// fmt.Print(buffer + " -> [")
+				buffer = buffer + string(r) // append to buffer
 				for i := 0; i < len(buffer); i++ {
 					s := buffer[i:]
-					// fmt.Print(s + ", ")
 					if slices.Contains(digitWords, s) {
-						// fmt.Println("]")
-						// fmt.Println("Found a word: " + s)
 						firstDigit = DigitWordToInt(s)
-						break outForwards
+						break forwards
 					}
 				}
-				// fmt.Println("]")
 			}
 		}
 
 		buffer = ""
 
-		// fmt.Println("Backwards!")
-
-		outBackwards:
+		// Parse from right-to-left until we match something
+		backwards:
 		for i := len(runeLine) - 1; i >= 0; i-- {
 			r := runeLine[i]
 
 			if unicode.IsDigit(r) {
 				secondDigit, _ = strconv.Atoi(string(r))
-				// fmt.Println(fmt.Sprint(secondDigit))
 				break
 			} else {
-				buffer = string(r) + buffer
-				// fmt.Print(buffer + " -> [")
+				buffer = string(r) + buffer // prepend to buffer
 				for i := 0; i < len(buffer); i++ {
 					s := buffer[:len(buffer) - i]
-					// fmt.Print(s + ", ")
 					if slices.Contains(digitWords, s) {
-						// fmt.Println("]")
-						// fmt.Println("Found a word: " + s)
 						secondDigit = DigitWordToInt(s)
-						break outBackwards
+						break backwards
 					}
 				}
-				// fmt.Println("]")
 			}
 		}
 
-		// fmt.Println(fmt.Sprint(firstDigit) + ", " + fmt.Sprint(secondDigit))
 		value := firstDigit * 10 + secondDigit
+		fmt.Println(fmt.Sprint(value) + " <- " + line)
+		
 		sum += value
-		fmt.Println(value)
-		// fmt.Println("--------------------")
 	}
 
 	fmt.Println("\nSum: " + fmt.Sprint(sum))
 }
-
-// func GetAllSubstrings(s string) []string {
-// 	substrings := []string{}
-
-// 	if s != "" {
-// 		for i := 0; i < len(s); i++ {
-// 			substrings += s[]
-// 		}
-// 	}
-
-// 	return substrings
-// }
 
 func DigitWordToInt(s string) int {
 	for index, word := range digitWords {
