@@ -4,6 +4,9 @@
 
 // Day 2: Cube Conundrum
 
+// Example line of input:
+// "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"
+
 const char* INPUT_FILE = "input-example-part-1.txt";
 const int MAX_LINE_SIZE = 100;
 const int MAX_RED_CUBES = 12;
@@ -17,11 +20,13 @@ void print_string_array(char** str_arr, int length);
 
 int main() {
     int game_id = 1;
-    int game_id_sum = 0;
-    int token_count;
-    char* found;
+    int sum_of_possible_game_ids = 0;
+	bool game_is_possible = true;
     char line[MAX_LINE_SIZE];
-    char* split_string[100];
+    char* line_substrings[10];
+    char* sets[100];
+    char* cubes[100];
+    char* cube_phrase[100];
 
     FILE* file = open_input_file(INPUT_FILE);
     while (fgets(line, sizeof(line), file) != NULL) {
@@ -30,37 +35,58 @@ int main() {
         line[strcspn(line, "\n")] = '\0'; // Strip off newline
         printf("\t\"%s\"\n", line);
 
-        token_count = strsplit(line, ":", split_string);
-        print_string_array(split_string, token_count);
+        // line = "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"
+        int token_count = strsplit(line, ":", line_substrings);
+        print_string_array(line_substrings, token_count);
 
-        token_count = strsplit(split_string[1], ";", split_string);
-        print_string_array(split_string, token_count);
+        // game = "3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"
+        char* game_number_phrase = line_substrings[0];
+        char* game = line_substrings[1];
+        int set_count = strsplit(game, ";", sets);
+        print_string_array(sets, set_count);
 
-        char* split_string_sub[100];
-        int token_count_sub = 0;
-        for (int i = 0; i < token_count; i++) {
-            token_count_sub = strsplit(split_string[i], ",", split_string_sub);
-            // token_count_sub = strsplit(split_string[i], ",", split_string_sub[token_count_sub]);
+        // sets = ["3 blue, 4 red", "1 red, 2 green, 6 blue", "2 green"]
+        for (int i = 0; i < set_count; i++) {
+            int cube_count = strsplit(sets[i], ",", cubes);
+            print_string_array(cubes, cube_count);
+
+            // cubes = ["3 blue", "4 red"]
+            for (int i = 0; i < cube_count; i++) {
+                _ = strsplit(cubes[i], " ", cube_phrase)
+
+				// cube_phrase = ["3", "blue"]
+				string numberString = cube_phrase[0];
+				int number_of_cubes = atoi(numberString);
+				string colour = cube_phrase[1];
+				
+				if (colour == "red" && number_of_cubes > MAX_RED_CUBES
+					|| colour = "green" && number_of_cubes > MAX_GREEN_CUBES
+					|| colour = "blue" && number_of_cubes > MAX_BLUE_CUBES) {
+					game_is_possible = false;
+				}
+            }
         }
-        print_string_array(split_string_sub, token_count_sub);
+
+        if (game_is_possible) {
+            printf("%s is possible", game_number_phrase);
+            sum_of_possible_game_ids += game_id;
+        }
 
         putchar('\n');
-
         game_id++;
     }
 
     return 0;
 }
 
-
 FILE* open_input_file(const char* filename) {
     FILE *file;
     file = fopen(filename, "r");
     
-	if (file == NULL) {
-		printf("Could not open file.");
-		exit(1);
-	}
+    if (file == NULL) {
+        printf("Could not open file '%s'", filename);
+        exit(1);
+    }
 
     return file;
 }
