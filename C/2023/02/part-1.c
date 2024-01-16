@@ -1,3 +1,4 @@
+#include <stdbool.h> 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,16 +53,18 @@ int main() {
 
             // cubes = ["3 blue", "4 red"]
             for (int i = 0; i < cube_count; i++) {
-                _ = strsplit(cubes[i], " ", cube_phrase)
+                strsplit(cubes[i], " ", cube_phrase);
 
 				// cube_phrase = ["3", "blue"]
-				string numberString = cube_phrase[0];
+				char* numberString = cube_phrase[0];
 				int number_of_cubes = atoi(numberString);
-				string colour = cube_phrase[1];
+				char* colour = cube_phrase[1];
+
+                // strcmp(colour, "red");
 				
-				if (colour == "red" && number_of_cubes > MAX_RED_CUBES
-					|| colour = "green" && number_of_cubes > MAX_GREEN_CUBES
-					|| colour = "blue" && number_of_cubes > MAX_BLUE_CUBES) {
+				if (strcmp(colour, "red") == 0 && number_of_cubes > MAX_RED_CUBES
+					|| strcmp(colour, "green") == 0 && number_of_cubes > MAX_GREEN_CUBES
+					|| strcmp(colour, "blue") == 0 && number_of_cubes > MAX_BLUE_CUBES) {
 					game_is_possible = false;
 				}
             }
